@@ -32,7 +32,7 @@ fs.readdirSync('.');
     $(() => {
         $('textarea').bind('keyup', function (e) {
             if (e.code == 'Enter') {
-                fetch(`js?${$('textarea').val()}`).then(r => r.text()).then(r => {
+                fetch(`js?${JSON.stringify($('textarea').val().split('\n'))}`).then(r => r.text()).then(r => {
                     $("#result").html('');
                     $("#result").append(`<p>${new Date()}</p>`);
                     $("#result").append(r);

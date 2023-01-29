@@ -21,8 +21,15 @@ app.get('/', (req, res) => {
 
 // api to run code in js vm
 app.get('/js', (req, res) => {
-    let code = decodeURIComponent(req.url.split('?')[1]);
-    res.send(vm.runInContext(code, context));
+    let codelines = JSON.parse(decodeURIComponent(req.url.split('?')[1]));
+    let output = temp = '';
+    codelines.forEach(line => {
+        temp = vm.runInContext(line, context);
+        Array.isArray(temp) && (temp = temp.join(' '));
+        output += temp ? temp + '<br>' : '';
+        return output;
+    });
+    res.send(output);
 });
 
 // start server
