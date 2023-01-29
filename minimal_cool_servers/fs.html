@@ -3,14 +3,14 @@
 <code>
     <br>
     // you can use any fs module function :)<br>
-    // please choose and paste one line code to textarea & press enter to test <br><br>
+    // please copy and paste code to textarea & press ctrl + r to test <br><br>
     fs.writeFileSync('test.txt', 'hello world', { encoding: 'utf-8' }); // create test.txt file <br>
     fs.readFileSync('test.txt', { encoding: 'utf-8' }); // read test.txt file <br>
     fs.readdirSync('.'); // read current directory <br>
     fs.unlink('test.txt', () => { }); // delete test.txt <br><br>
 </code>
 <textarea>
-fs.readdirSync('.');
+console.log(fs.readdirSync('.'));
 </textarea>
 <div id="result"></div>
 <style>
@@ -30,8 +30,8 @@ fs.readdirSync('.');
 <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js"></script>
 <script>
     $(() => {
-        $('textarea').bind('keyup', function (e) {
-            if (e.code == 'Enter') {
+        $(document).bind("keydonn keyup", function (e) {
+            if (e.ctrlKey && e.code == 'KeyR') {
                 fetch(`js?${JSON.stringify($('textarea').val().split('\n'))}`).then(r => r.text()).then(r => {
                     $("#result").html('');
                     $("#result").append(`<p>${new Date()}</p>`);
@@ -41,6 +41,6 @@ fs.readdirSync('.');
                     });
                 })
             }
-        })
+        });
     })
 </script>
