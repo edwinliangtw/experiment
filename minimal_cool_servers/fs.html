@@ -30,8 +30,8 @@ console.log(fs.readdirSync('.'));
 <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js"></script>
 <script>
     $(() => {
-        $(document).bind("keydonn keyup", function (e) {
-            if (e.ctrlKey && e.code == 'KeyR') {
+        $(document).bind("keypress", function (e) {
+            if (e.code == 'KeyR' && e.ctrlKey) {
                 fetch(`js?${JSON.stringify($('textarea').val().split('\n'))}`).then(r => r.text()).then(r => {
                     $("#result").html('');
                     $("#result").append(`<p>${new Date()}</p>`);
