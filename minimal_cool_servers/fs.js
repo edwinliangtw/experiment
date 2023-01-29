@@ -1,18 +1,14 @@
 // author: edwinliang 20230128
 
 const express = require("express");
-const vm = require("vm");
 const fs = require("fs");
 const app = express();
 const port = 8888;
 
-// you can add your module here
-const context = {
-    fs, // use filesystem module here
-}
-
-// create context you need 
-vm.createContext(context);
+// override console.lof function
+let output = [];
+const log = console.log;
+console.log = (...args) => { output.push([...args]); log(...args) }
 
 // render fs.html
 app.get('/', (req, res) => {
@@ -21,18 +17,12 @@ app.get('/', (req, res) => {
 
 // api to run code in js vm
 app.get('/js', (req, res) => {
-    let codelines = JSON.parse(decodeURIComponent(req.url.split('?')[1]));
-    let output = temp = '';
-    codelines.forEach(line => {
-        temp = vm.runInContext(line, context);
-        Array.isArray(temp) && (temp = temp.join(' '));
-        output += temp ? temp + '<br>' : '';
-        return output;
-    });
-    res.send(output);
+    eval(JSON.parse(decodeURIComponent(req.url.split('?')[1])).join('\n'));
+    res.send(JSON.stringify(output));
+    output = [];
 });
 
 // start server
 app.listen(port);
 
-console.log('server start at localhost:' + port);
+log('server start at localhost:' + port);

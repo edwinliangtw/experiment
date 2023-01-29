@@ -35,7 +35,10 @@ fs.readdirSync('.');
                 fetch(`js?${JSON.stringify($('textarea').val().split('\n'))}`).then(r => r.text()).then(r => {
                     $("#result").html('');
                     $("#result").append(`<p>${new Date()}</p>`);
-                    $("#result").append(r);
+                    let results = JSON.parse(r);
+                    results.forEach(result => {
+                        $("#result").append('&gt; ' + result + '<br>');
+                    });
                 })
             }
         })
